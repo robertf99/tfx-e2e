@@ -1,0 +1,12 @@
+{
+  "name": "airflow",
+  "version": "1.0.0",
+  "description": "Tensorflow Decision Forest with TFX orchestrated in Airflow",
+  "author": "Robert Fu (robertf99@gmail.com)",
+  "license": "Proprietary",
+  "private": true,
+  "scripts":{
+    "docker:up":"docker-compose up",
+    "docker:down":"docker-compose down"
+  }
+}

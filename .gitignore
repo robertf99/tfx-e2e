@@ -1,0 +1,4 @@
+airflow/logs
+airflow/plugins
+aifflow/data
+**/__pycache__
