@@ -88,14 +88,13 @@ def run_fn(fn_args: tfx.components.FnArgs):
     )
 
     model = _build_tfdf_model()
-    with sys_pipes():
-        model.fit(
-            train_dataset,
-            # steps_per_epoch=fn_args.train_steps,
-            validation_data=eval_dataset,
-        )
-        # validation_steps=fn_args.eval_steps)
-        print(model.summary())
+    model.fit(
+        train_dataset,
+        # steps_per_epoch=fn_args.train_steps,
+        validation_data=eval_dataset,
+    )
+    # validation_steps=fn_args.eval_steps)
+    print(model.summary())
 
     model.make_inspector().export_to_tensorboard(fn_args.model_run_dir)
     # The result of the training should be saved in `fn_args.serving_model_dir`

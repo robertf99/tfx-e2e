@@ -1,32 +1,4 @@
 feature {
-  name: "island"
-  type: BYTES
-  domain: "island"
-  presence {
-    min_fraction: 1.0
-    min_count: 1
-  }
-  shape {
-    dim {
-      size: 1
-    }
-  }
-}
-feature {
-  name: "sex"
-  type: BYTES
-  domain: "sex"
-  presence {
-    min_fraction: 1.0
-    min_count: 1
-  }
-  shape {
-    dim {
-      size: 1
-    }
-  }
-}
-feature {
   name: "bill_depth_mm"
   type: FLOAT
   presence {
@@ -68,6 +40,34 @@ feature {
 feature {
   name: "flipper_length_mm"
   type: FLOAT
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+  shape {
+    dim {
+      size: 1
+    }
+  }
+}
+feature {
+  name: "island"
+  type: BYTES
+  domain: "island"
+  presence {
+    min_fraction: 1.0
+    min_count: 1
+  }
+  shape {
+    dim {
+      size: 1
+    }
+  }
+}
+feature {
+  name: "sex"
+  type: BYTES
+  domain: "sex"
   presence {
     min_fraction: 1.0
     min_count: 1

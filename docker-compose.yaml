@@ -6,4 +6,4 @@ services:
       - ./penguin-pipeline:/penguin-pipeline
       - ./models:/models
       - ./data:/data
-    entrypoint: ["sleep", "1000"]
+    entrypoint: ["sleep", "10000"]

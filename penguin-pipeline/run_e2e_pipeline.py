@@ -7,10 +7,10 @@ from pipeline.e2e_pipeline.pipeline import create_schema_pipeline
 
 tfx.orchestration.LocalDagRunner().run(
     create_schema_pipeline(
-        pipeline_name=pipe_config.SCHEMA_PIPELINE_NAME,
-        pipeline_root=pipe_config.SCHEMA_PIPELINE_ROOT,
-        data_root=pipe_config.SCHEMA_DATA_ROOT,
-        metadata_path=pipe_config.SCHEMA_METADATA_PATH,
+        pipeline_name=pipe_config.PIPELINE_NAME,
+        pipeline_root=pipe_config.PIPELINE_ROOT,
+        data_root=pipe_config.DATA_ROOT,
+        metadata_path=pipe_config.METADATA_PATH,
         schema_path=pipe_config.SAVED_SCHEMA_PATH,
         trainer_module_file=pipe_config.TRAINER_MODULE_PATH,
         serving_model_dir=pipe_config.SERVING_MODEL_DIR,
