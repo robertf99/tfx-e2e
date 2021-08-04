@@ -5,10 +5,11 @@ name = "pypi"
 
 [packages]
 tfx = "==1.0.0"
-tensorflow_decision_forests = "*"
 pydantic = "*"
 pandas = "*"
-wurlitzer ="*"
+jupyterlab = "*"
+tensorflow-model-analysis = "==0.33.0"
+jupyterlab-widgets = "==1.0.0"
 
 [dev-packages]
 black = "*"
