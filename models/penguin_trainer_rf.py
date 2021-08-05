@@ -10,7 +10,6 @@ from tfx import v1 as tfx
 from tfx_bsl.tfxio import dataset_options
 from tensorflow_metadata.proto.v0 import schema_pb2
 
-from wurlitzer import sys_pipes
 
 _LABEL_KEY = "species"
 

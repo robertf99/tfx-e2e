@@ -6,14 +6,15 @@ name = "pypi"
 [packages]
 tfx = "==1.0.0"
 pydantic = "*"
+tensorflow_decision_forests = "*"
 pandas = "*"
-jupyterlab = "*"
 tensorflow-model-analysis = "==0.33.0"
-jupyterlab-widgets = "==1.0.0"
 
 [dev-packages]
 black = "*"
 flake8 = "*"
+jupyterlab-widgets = "==1.0.0"
+jupyterlab = "*"
 
 [requires]
 python_version = "3.8"
