@@ -9,3 +9,4 @@ airflow/logs
 **/metadata
 **/data
 **/example
+**/.ipynb_checkpoints

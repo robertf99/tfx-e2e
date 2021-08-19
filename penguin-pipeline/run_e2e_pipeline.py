@@ -3,10 +3,10 @@ import os
 import shutil
 from tfx.orchestration.metadata import Metadata
 from pipeline.config import pipe_config
-from pipeline.e2e_pipeline.pipeline import create_schema_pipeline
+from pipeline.e2e_pipeline.pipeline import create_pipeline
 
 tfx.orchestration.LocalDagRunner().run(
-    create_schema_pipeline(
+    create_pipeline(
         pipeline_name=pipe_config.PIPELINE_NAME,
         pipeline_root=pipe_config.PIPELINE_ROOT,
         data_root=pipe_config.DATA_ROOT,

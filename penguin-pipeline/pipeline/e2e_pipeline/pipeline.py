@@ -2,7 +2,7 @@ from tfx import v1 as tfx
 import tensorflow_model_analysis as tfma
 
 
-def create_schema_pipeline(
+def create_pipeline(
     pipeline_name: str,
     pipeline_root: str,
     data_root: str,
