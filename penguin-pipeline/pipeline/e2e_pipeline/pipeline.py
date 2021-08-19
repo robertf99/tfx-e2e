@@ -108,6 +108,7 @@ def create_pipeline(
         schema_importer,
         example_validator,
         trainer,
+		model_resolver,
         evaluator,
         pusher,
     ]
