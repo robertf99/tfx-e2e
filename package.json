@@ -6,8 +6,10 @@
   "license": "Proprietary",
   "private": true,
   "scripts":{
-    "docker:up":"docker-compose up",
-    "docker:build":"docker-compose build",
-    "docker:down":"docker-compose down"
+    "docker:up":"docker-compose up -d",
+    "docker:build":"docker-compose -f ./docker-compose.yaml --project-directory . build",
+    "docker:down":"docker-compose down",
+    "pipeline:create":"cd penguin-pipeline && tfx pipeline create  --pipeline-path=kubeflow_e2e_runner.py --endpoint=http://localhost:8080",
+    "pipeline:create:build":"cd penguin-pipeline && tfx pipeline create  --pipeline-path=kubeflow_e2e_runner.py --endpoint=http://localhost:8080 --build-image"
   }
 }

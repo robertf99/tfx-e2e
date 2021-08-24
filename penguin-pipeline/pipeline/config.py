@@ -30,7 +30,9 @@ class PipelineConfig(BaseModel):
     TFX_IMAGE = "robertf99/tfx-tfdf"
 
     KUBE_DATA_ROOT = os.path.join(PV_MOUNT_BASEPATH, "data", PIPELINE_NAME)
-    KUBE_MODULES_ROOT = os.path.join(PV_MOUNT_BASEPATH, "models", PIPELINE_NAME)
+    KUBE_TRAINER_MODULE_PATH = os.path.join(
+        PV_MOUNT_BASEPATH, "models", "penguin_trainer_rf.py"
+    )
     KUBE_PIPELINE_ROOT = os.path.join(
         PV_MOUNT_BASEPATH, "pipeline_output", PIPELINE_NAME
     )

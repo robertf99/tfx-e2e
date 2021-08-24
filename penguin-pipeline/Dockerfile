@@ -6,8 +6,8 @@ RUN apt install -y gcc g++ \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-RUN pip install pipenv
+RUN pip install tfx==1.2.0 \
+    tensorflow_decision_forests==0.1.8 \
+    tensorflow==2.5.0\
+    pydantic
 
-COPY ./Pipfile /Pipfile
-
-RUN pipenv install --system --skip-lock
