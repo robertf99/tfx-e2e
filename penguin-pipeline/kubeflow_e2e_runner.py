@@ -22,8 +22,8 @@ def run():
         pipeline_operator_funcs=(
             [
                 onprem.mount_pvc(
-                    pipe_config.PV_NAME,
                     pipe_config.PVC_NAME,
+                    pipe_config.PV_NAME,
                     pipe_config.PV_MOUNT_BASEPATH,
                 )
             ]
