@@ -1,4 +1,5 @@
 from tfx import v1 as tfx
+
 import os
 import shutil
 from tfx.orchestration.metadata import Metadata
@@ -10,7 +11,9 @@ tfx.orchestration.LocalDagRunner().run(
         pipeline_name=pipe_config.PIPELINE_NAME,
         pipeline_root=pipe_config.PIPELINE_ROOT,
         data_root=pipe_config.DATA_ROOT,
-        metadata_path=pipe_config.METADATA_PATH,
+        metadata_connection_config=tfx.orchestration.metadata.sqlite_metadata_connection_config(
+            pipe_config.METADATA_PATH
+        ),
         schema_path=pipe_config.SAVED_SCHEMA_PATH,
         trainer_module_file=pipe_config.TRAINER_MODULE_PATH,
         serving_model_dir=pipe_config.SERVING_MODEL_DIR,

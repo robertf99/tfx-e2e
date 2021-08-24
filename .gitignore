@@ -4,9 +4,11 @@ tfx_metadata  # Default tfx metadata SQLite DB directory
 
 airflow/logs
 **/__pycache__
+**/*.tar.gz
 **/pipeline_output
 **/serving_model
 **/metadata
 **/data
 **/example
 **/.ipynb_checkpoints
+**/Kubeflow/local

@@ -1,15 +1,17 @@
+from typing import Optional
 from tfx import v1 as tfx
 import tensorflow_model_analysis as tfma
+from ml_metadata.proto import metadata_store_pb2
 
 
 def create_pipeline(
     pipeline_name: str,
     pipeline_root: str,
     data_root: str,
-    metadata_path: str,
     schema_path: str,
     trainer_module_file: str,
     serving_model_dir: str,
+    metadata_connection_config: Optional[metadata_store_pb2.ConnectionConfig] = None,
 ) -> tfx.dsl.Pipeline:
     """Creates a three component penguin pipeline with TFX."""
     # Split data
@@ -108,7 +110,7 @@ def create_pipeline(
         schema_importer,
         example_validator,
         trainer,
-		model_resolver,
+        model_resolver,
         evaluator,
         pusher,
     ]
@@ -116,8 +118,6 @@ def create_pipeline(
     return tfx.dsl.Pipeline(
         pipeline_name=pipeline_name,
         pipeline_root=pipeline_root,
-        metadata_connection_config=tfx.orchestration.metadata.sqlite_metadata_connection_config(
-            metadata_path
-        ),
+        metadata_connection_config=metadata_connection_config,
         components=components,
     )
