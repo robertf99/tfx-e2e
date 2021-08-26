@@ -91,6 +91,7 @@ def create_pipeline(
         model=trainer.outputs["model"],
         baseline_model=model_resolver.outputs["model"],
         eval_config=eval_config,
+        module_file="./pipeline/e2e_pipeline/custom_evaluator.py",
     )
 
     # Pusher

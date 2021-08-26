@@ -1,9 +1,10 @@
 version: "3.8"
 services:
   pipeline:
-    image: robertf99/tfx-tfdf
+    image: robertf99/tfx-tfdf 
     volumes:
       - ./penguin-pipeline:/penguin-pipeline
       - ./models:/models
       - ./data:/data
     entrypoint: ["sleep", "10000"]
+    network_mode: "host"

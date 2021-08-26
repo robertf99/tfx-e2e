@@ -27,7 +27,7 @@ class PipelineConfig(BaseModel):
     PV_MOUNT_BASEPATH = "/tmp/tfx"
 
     # Image used
-    TFX_IMAGE = "robertf99/tfx-tfdf"
+    TFX_IMAGE = "robertf99/penguin-e2e"
 
     KUBE_DATA_ROOT = os.path.join(PV_MOUNT_BASEPATH, "data", PIPELINE_NAME)
     KUBE_TRAINER_MODULE_PATH = os.path.join(

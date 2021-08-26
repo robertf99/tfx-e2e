@@ -3,6 +3,10 @@ from pipeline.config import pipe_config
 from pipeline.e2e_pipeline.pipeline import create_pipeline
 from kfp import onprem
 
+# import tfdf to avoid registered 'SimpleMLInferenceOpWithHandle' issue
+# https://discuss.tensorflow.org/t/tensorflow-decision-forests-with-tfx-model-serving-and-evaluation/2137/3
+import tensorflow_decision_forests
+
 
 def run():
     """Define a pipeline to be executed using Kubeflow V2 runner."""
@@ -40,7 +44,7 @@ def run():
         pipeline_root=pipe_config.KUBE_PIPELINE_ROOT,
         data_root=pipe_config.KUBE_DATA_ROOT,
         schema_path=pipe_config.KUBE_SAVED_SCHEMA_PATH,
-        trainer_module_file=pipe_config.KUBE_TRAINER_MODULE_PATH,
+        trainer_module_file=pipe_config.TRAINER_MODULE_PATH,  # need to be part of docker image
         serving_model_dir=pipe_config.KUBE_SERVING_MODEL_DIR,
     )
     runner = tfx.orchestration.experimental.KubeflowDagRunner(

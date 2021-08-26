@@ -1,13 +1,8 @@
-FROM python:3.8.11-slim-buster
+FROM robertf99/tfx-tfdf
 
-RUN apt update
-RUN apt install -y gcc g++ \
-    && apt-get autoremove -yqq --purge \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+WORKDIR /models
+COPY ./models ./
 
-RUN pip install tfx==1.2.0 \
-    tensorflow_decision_forests==0.1.8 \
-    tensorflow==2.5.0\
-    pydantic
-
+WORKDIR /pipeline
+COPY ./pipeline ./
+ENV PYTHONPATH="/pipeline:${PYTHONPATH}"

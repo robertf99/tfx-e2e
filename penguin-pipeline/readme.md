@@ -21,6 +21,9 @@ pipenv run jupyter labextension install tensorflow_model_analysis@0.33.0
 - Create persistent volume and persistent volume claim in kubenetes cluster (namespace kubeflow) and attched node hostpath to volume
 - Add a onprem.mount_pvc op to kubeflow_e2e_runner.py so that container would mount the pvc to its file system
 - Compile and create pipeline to Kubeflow (Note: for tfx pipeline compile to succeed, the mount_pvc path shall have user write access, i.e, /tmp..)
+- To reflect change of components (ie models, pipeline definition), update TFX_IMGAGE in config.py and rerun docker build container image (by default is robertf99/penguin-e2e) and push. Note currently schema, data and pipeline_output are mounted as hostPath.
+- Trainer whl file needs to be put into pipeline root folder, or build into container image for kubeflow pipeline to access. Referencing .py file does not work
+- For Model Evaluator to run in kubeflow (TFDF model only), there needs to be a custom module file with just `import tensorflow_decision_forest` as part of Evaluator config to allow for tensorflow op registration(https://github.com/tensorflow/decision-forests/issues/14). Same as Trainer module file, this custom module needs to be convert to whl or built into container image under pipeline root path. Currently due to TFDF has no Mac distribution, this step is currently done in docker image 
 
 ## Local Full Kubeflow Deployment (Notebook Server etc)
 - Install kind: brew install kind
