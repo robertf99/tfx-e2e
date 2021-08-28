@@ -54,6 +54,13 @@ def create_pipeline(
             tfma.MetricsSpec(
                 metrics=[
                     tfma.MetricConfig(class_name="ExampleCount"),
+                    tfma.MetricConfig(class_name="AUC"),
+                    tfma.MetricConfig(class_name="AUCPrecisionRecall"),
+                    tfma.MetricConfig(class_name="Precision"),
+                    tfma.MetricConfig(class_name="Recall"),
+                    tfma.MetricConfig(class_name="MeanPrediction"),
+                    tfma.MetricConfig(class_name="CalibrationPlot"),
+                    tfma.MetricConfig(class_name="ConfusionMatrixPlot"),
                     tfma.MetricConfig(
                         class_name="SparseCategoricalAccuracy",
                         threshold=tfma.MetricThreshold(
@@ -77,6 +84,7 @@ def create_pipeline(
             # Data can be sliced along a feature column. In this case, data is
             # sliced along feature column trip_start_hour.
             tfma.SlicingSpec(feature_keys=["sex"]),
+            tfma.SlicingSpec(feature_keys=["island"]),
         ],
     )
 

@@ -3,10 +3,6 @@ from pipeline.config import pipe_config
 from pipeline.e2e_pipeline.pipeline import create_pipeline
 from kfp import onprem
 
-# import tfdf to avoid registered 'SimpleMLInferenceOpWithHandle' issue
-# https://discuss.tensorflow.org/t/tensorflow-decision-forests-with-tfx-model-serving-and-evaluation/2137/3
-import tensorflow_decision_forests
-
 
 def run():
     """Define a pipeline to be executed using Kubeflow V2 runner."""

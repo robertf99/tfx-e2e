@@ -8,7 +8,7 @@ metadata:
 spec:
   storageClassName: manual
   capacity:
-    storage: 5Gi
+    storage: 2Gi
   accessModes:
     - ReadWriteMany
   hostPath:
@@ -27,3 +27,33 @@ spec:
   resources:
     requests:
       storage: 2Gi
+
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: tfx-output-pv
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "/local"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: tfx-output-pvc
+  namespace: kubeflow
+spec:
+  storageClassName: manual
+  accessModes:
+    - ReadWriteMany
+  volumeName: tfx-output-pv
+  resources:
+    requests:
+      storage: 1Gi

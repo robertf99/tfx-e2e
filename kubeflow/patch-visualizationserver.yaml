@@ -1,0 +1,12 @@
+spec:
+  template:
+    spec:
+      containers:
+        - name: ml-pipeline-visualizationserver
+          volumeMounts:
+            - mountPath: /output
+              name: output-volume-mount-name
+      volumes:
+        - name: output-volume-mount-name
+          persistentVolumeClaim:
+                claimName: tfx-output-pvc
