@@ -2,11 +2,7 @@ Integrate TFX and TFDF in Docker Images using Penguin Dataset
 
 Note:
 TFDF only has a Linux version, no Mac support as of 27/07/2021
-To run in Jupyterlab, need the following:
-
-```
-pipenv run jupyter labextension install tensorflow_model_analysis@0.33.0
-```
+Use docker for local dev (Docckerfile_dev)
 
 ## Local runner in docker
 - Run the entire model inside docker image
@@ -33,6 +29,8 @@ pipenv run jupyter labextension install tensorflow_model_analysis@0.33.0
 - kfctl apply --file=${CONFIG} -V, where config=https://raw.githubusercontent.com/kubeflow/manifests/v1.2-branch/kfdef/kfctl_k8s_istio.v1.2.0.yaml. This should deploy all relevant serices to the cluster.
 - kubectl port-forward svc/istio-ingressgateway -n istio-system 8080:80
 
+## Postrun Analysis
+- use examine_outputs.ipynb to analyze model performance
 ## Issues
 - kfp.Client() refuse connection when using cluster IP
 - Kubeflow runs pipeline in docker images, for external input files, should use file URI, or some way of volume (try with full kubeflow deployment)

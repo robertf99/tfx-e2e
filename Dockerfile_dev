@@ -1,0 +1,21 @@
+FROM robertf99/tfx-tfdf
+
+# for local dev in jupyter-lab
+RUN pip install jupyterlab==3.0.0 \
+    jupyterlab_widgets==1.0.0
+
+RUN apt-get update
+RUN apt-get install -y curl
+
+RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash -
+RUN apt-get install -y nodejs
+
+# https://github.com/tensorflow/model-analysis#installation
+RUN jupyter labextension install tensorflow_model_analysis@0.33.0
+
+EXPOSE 8888
+
+ENV TINI_VERSION v0.19.0
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini /tini
+RUN chmod +x /tini
+ENTRYPOINT ["/usr/bin/tini", "--"]

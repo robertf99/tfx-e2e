@@ -10,7 +10,8 @@
             "request": "launch",
             "program": "${file}",
             "console": "internalConsole",
-            "python": "${workspaceFolder}/.venv/bin/python",
+            // comment if run in docker
+            // "python": "${workspaceFolder}/.venv/bin/python",
             "justMyCode": false
         }
     ]

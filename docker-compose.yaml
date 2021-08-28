@@ -1,10 +1,13 @@
 version: "3.8"
 services:
   pipeline:
-    image: robertf99/tfx-tfdf 
+    build:
+      context: .
+      dockerfile: Dockerfile_dev
     volumes:
       - ./penguin-pipeline:/penguin-pipeline
       - ./models:/models
       - ./data:/data
-    entrypoint: ["sleep", "10000"]
-    network_mode: "host"
+    ports:
+      - "8888:8888"
+    entrypoint: [ "jupyter", "lab", "--allow-root", "--ip",  "0.0.0.0",  "--no-browser" ]
