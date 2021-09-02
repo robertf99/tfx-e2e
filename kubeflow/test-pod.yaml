@@ -1,13 +1,17 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  name: task-pv-pod
+  name: test-pod
   namespace: kubeflow
 spec:
   volumes:
     - name: task-pv-storage
       persistentVolumeClaim:
         claimName: tfx-pvc
+    - name: gcp-credentials-gcs-pipeline-output-sa
+      secret:
+        secretName: gcs-pipeline-output-sa
+        defaultMode: 420
   containers:
     - name: task-pv-container
       image: nginx
@@ -17,3 +21,10 @@ spec:
       volumeMounts:
         - mountPath: "/usr/share/ddd/html"
           name: task-pv-storage
+        - mountPath: /secret/gcp-credentials
+          name: gcp-credentials-gcs-pipeline-output-sa
+      env:
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: /secret/gcp-credentials/gcs-pipeline-output-sa.json
+        - name: CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE
+          value: /secret/gcp-credentials/gcs-pipeline-output-sa.json

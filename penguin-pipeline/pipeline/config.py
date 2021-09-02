@@ -18,6 +18,9 @@ class PipelineConfig(BaseModel):
     TRAINER_MODULE_PATH = os.path.join(
         "../models", "penguin_trainer_rf.py"  # running after cd ./penguin-pipeline
     )
+    EVALUATOR_MODULE_PATH = os.path.join(
+        "../models", "custom_evaluator.py"  # running after cd ./penguin-pipeline
+    )
     SERVING_MODEL_DIR = os.path.join("serving_model", PIPELINE_NAME)
 
     # Kubeflow configs
@@ -25,6 +28,7 @@ class PipelineConfig(BaseModel):
     PV_NAME = "tfx-pv"
     PVC_NAME = "tfx-pvc"
     PV_MOUNT_BASEPATH = "/tmp/tfx"
+    GCS_ROOT = "gs://penguin-pipeline"
 
     # Image used
     TFX_IMAGE = "robertf99/penguin-e2e"
@@ -33,15 +37,11 @@ class PipelineConfig(BaseModel):
     KUBE_TRAINER_MODULE_PATH = os.path.join(
         PV_MOUNT_BASEPATH, "models", "penguin_trainer_rf.py"
     )
-    KUBE_PIPELINE_ROOT = os.path.join(
-        PV_MOUNT_BASEPATH, "pipeline_output", PIPELINE_NAME
-    )
+    KUBE_PIPELINE_ROOT = os.path.join(GCS_ROOT, "pipeline_output", PIPELINE_NAME)
     KUBE_SAVED_SCHEMA_PATH = os.path.join(
         PV_MOUNT_BASEPATH, "schema", SCHEMA_PIPELINE_NAME, SAVED_SCHEMA_NAME
     )
-    KUBE_SERVING_MODEL_DIR = os.path.join(
-        PV_MOUNT_BASEPATH, "serving_model", PIPELINE_NAME
-    )
+    KUBE_SERVING_MODEL_DIR = os.path.join(GCS_ROOT, "serving_model", PIPELINE_NAME)
 
 
 pipe_config = PipelineConfig()

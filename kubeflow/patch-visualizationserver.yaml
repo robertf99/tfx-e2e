@@ -1,12 +1,45 @@
+
 spec:
   template:
     spec:
       containers:
-        - name: ml-pipeline-visualizationserver
-          volumeMounts:
-            - mountPath: /output
-              name: output-volume-mount-name
+      - name: ml-pipeline-visualizationserver
+        volumeMounts:
+          - mountPath: /secret/gcp-credentials
+            name: gcp-credentials-gcs-pipeline-output-sa
+        env:
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: /secret/gcp-credentials/gcs-pipeline-output-sa.json
+        - name: CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE
+          value: /secret/gcp-credentials/gcs-pipeline-output-sa.json
       volumes:
-        - name: output-volume-mount-name
-          persistentVolumeClaim:
-                claimName: tfx-output-pvc
+        - name: gcp-credentials-gcs-pipeline-output-sa
+          secret:
+            secretName: gcs-pipeline-output-sa
+            defaultMode: 420
+
+# spec:
+#   template:
+#     spec:
+#       containers:
+#       - name: ml-pipeline-visualizationserver
+#         volumeMounts:
+#           - mountPath: /output
+#             name: output-volume-mount-name
+#           - mountPath: /config/view_spec_template.json
+#             subPath: view_spec_template.json
+#             name: view-template-config
+#         env:
+#         - name: VIEWER_TENSORBOARD_POD_TEMPLATE_SPEC_PATH
+#           value: "/config/view_spec_template.json"
+            
+#       volumes:
+#         - name: output-volume-mount-name
+#           persistentVolumeClaim:
+#                 claimName: tfx-pvc
+#         - name: view-template-config
+#           configMap:
+#             name: ui-view-spec-template-configmap
+#             items:
+#               - key: view-spec-template.json
+#                 path: view_spec_template.json

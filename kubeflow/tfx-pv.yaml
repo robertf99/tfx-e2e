@@ -26,34 +26,31 @@ spec:
   volumeName: tfx-pv
   resources:
     requests:
-      storage: 2Gi
+      storage: 500Mi
 
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: tfx-output-pv
-  labels:
-    type: local
-spec:
-  storageClassName: manual
-  capacity:
-    storage: 1Gi
-  accessModes:
-    - ReadWriteMany
-  hostPath:
-    path: "/local"
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: tfx-output-pvc
-  namespace: kubeflow
-spec:
-  storageClassName: manual
-  accessModes:
-    - ReadWriteMany
-  volumeName: tfx-output-pv
-  resources:
-    requests:
-      storage: 1Gi
+# ---
+# For tensorboard from local pv
+# https://github.com/kubeflow/pipelines/blob/master/docs/config/volume-support.md
+# apiVersion: v1
+# kind: ConfigMap
+# data:
+#   view-spec-template.json: |-
+#     {
+#       "spec": {
+#           "containers": [{
+#             "volumeMounts": [{
+#               "name": "output",
+#               "mountPath": "/output"
+#             }]
+#           }],
+#           "volumes": [{
+#             "name": "output",
+#             "persistentVolumeClaim": {
+#               "claimName": "tfx-pvc"
+#             }
+#           }]
+#         }
+#     }
+# metadata:
+#   name: ui-view-spec-template-configmap
+#   namespace: kubeflow

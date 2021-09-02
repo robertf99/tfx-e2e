@@ -13,6 +13,11 @@ kubectl apply -k "github.com/kubeflow/pipelines/manifests/kustomize/env/platform
 
 # patch kubeflow ui deployment
 kubectl patch deployment ml-pipeline-visualizationserver --patch "$(cat patch-visualizationserver.yaml)" -n kubeflow --type strategic
+kubectl patch deployment ml-pipeline-ui --patch "$(cat patch-ml-pipeline-ui.yaml)" -n kubeflow --type strategic
+kubectl patch deployment ml-pipeline-viewer-crd --patch "$(cat patch-ml-pipeline-viewer.yaml)" -n kubeflow --type strategic
+
+# Create secret
+kubectl create secret -n kubeflow generic gcs-pipeline-output-sa --from-file=gcs-pipeline-output-sa.json=tfx-e2e-70e117e15758.json
 
 # delete kubeflow pipeline
 # export PIPELINE_VERSION=1.7.0

@@ -7,6 +7,7 @@ name = "pypi"
 tfx = "==1.2.0"
 pydantic = "*"
 tensorflow= "==2.5.0"
+kfp = "==1.7.2"
 tensorflow-model-analysis= "==0.33.0"
 
 

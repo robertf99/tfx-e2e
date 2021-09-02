@@ -10,6 +10,7 @@ def create_pipeline(
     data_root: str,
     schema_path: str,
     trainer_module_file: str,
+    evaluator_module_file: str,
     serving_model_dir: str,
     metadata_connection_config: Optional[metadata_store_pb2.ConnectionConfig] = None,
 ) -> tfx.dsl.Pipeline:
@@ -99,7 +100,7 @@ def create_pipeline(
         model=trainer.outputs["model"],
         baseline_model=model_resolver.outputs["model"],
         eval_config=eval_config,
-        module_file="./pipeline/e2e_pipeline/custom_evaluator.py",
+        module_file=evaluator_module_file,
     )
 
     # Pusher

@@ -2,6 +2,7 @@ from tfx import v1 as tfx
 from pipeline.config import pipe_config
 from pipeline.e2e_pipeline.pipeline import create_pipeline
 from kfp import onprem
+import kfp.gcp as gcp
 
 
 def run():
@@ -25,7 +26,8 @@ def run():
                     pipe_config.PVC_NAME,
                     pipe_config.PV_NAME,
                     pipe_config.PV_MOUNT_BASEPATH,
-                )
+                ),
+                gcp.use_gcp_secret("gcs-pipeline-output-sa"),
             ]
         ),
     )
@@ -40,7 +42,8 @@ def run():
         pipeline_root=pipe_config.KUBE_PIPELINE_ROOT,
         data_root=pipe_config.KUBE_DATA_ROOT,
         schema_path=pipe_config.KUBE_SAVED_SCHEMA_PATH,
-        trainer_module_file=pipe_config.TRAINER_MODULE_PATH,  # need to be part of docker image
+        trainer_module_file=pipe_config.TRAINER_MODULE_PATH,
+        evaluator_module_file=pipe_config.EVALUATOR_MODULE_PATH,
         serving_model_dir=pipe_config.KUBE_SERVING_MODEL_DIR,
     )
     runner = tfx.orchestration.experimental.KubeflowDagRunner(
