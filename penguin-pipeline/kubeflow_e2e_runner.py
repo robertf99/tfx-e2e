@@ -32,23 +32,16 @@ def run():
         ),
     )
 
-    pod_labels = {
-        "add-pod-env": "true",
-        tfx.orchestration.experimental.LABEL_KFP_SDK_ENV: "tfx-template",
-    }
-
     dsl_pipeline = create_pipeline(
         pipeline_name=pipe_config.PIPELINE_NAME,
         pipeline_root=pipe_config.KUBE_PIPELINE_ROOT,
         data_root=pipe_config.KUBE_DATA_ROOT,
         schema_path=pipe_config.KUBE_SAVED_SCHEMA_PATH,
         trainer_module_file=pipe_config.TRAINER_MODULE_PATH,
-        evaluator_module_file=pipe_config.EVALUATOR_MODULE_PATH,
+        evaluator_module_file=pipe_config.EVAL_MODULE_PATH,
         serving_model_dir=pipe_config.KUBE_SERVING_MODEL_DIR,
     )
-    runner = tfx.orchestration.experimental.KubeflowDagRunner(
-        config=runner_config, pod_labels_to_attach=pod_labels
-    )
+    runner = tfx.orchestration.experimental.KubeflowDagRunner(config=runner_config)
 
     runner.run(pipeline=dsl_pipeline)
 

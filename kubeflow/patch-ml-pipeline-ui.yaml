@@ -6,13 +6,29 @@ spec:
         volumeMounts:
           - mountPath: /secret/gcp-credentials
             name: gcp-credentials-gcs-pipeline-output-sa
+          - mountPath: /tmp/tfx
+            name: output-volume-mount-name
+          - mountPath: /config/viewer_spec_template.json
+            subPath: viewer_spec_template.json
+            name: viewer-template-config
         env:
         - name: GOOGLE_APPLICATION_CREDENTIALS
           value: /secret/gcp-credentials/gcs-pipeline-output-sa.json
         - name: CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE
           value: /secret/gcp-credentials/gcs-pipeline-output-sa.json
+        - name: VIEWER_TENSORBOARD_POD_TEMPLATE_SPEC_PATH
+          value: "/config/viewer_spec_template.json"
       volumes:
         - name: gcp-credentials-gcs-pipeline-output-sa
           secret:
             secretName: gcs-pipeline-output-sa
             defaultMode: 420
+        - name: output-volume-mount-name
+          persistentVolumeClaim:
+                claimName: tfx-pvc
+        - name: viewer-template-config
+          configMap:
+            name: ui-viewer-spec-template-configmap
+            items:
+              - key: viewer-spec-template.json
+                path: viewer_spec_template.json
