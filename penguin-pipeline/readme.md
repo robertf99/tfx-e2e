@@ -1,7 +1,8 @@
-Integrate TFX and TFDF in Docker Images using Penguin Dataset
+# Integrate TFX and TFDF in Docker Images using Penguin Dataset
 
-Note:
+## Note
 TFDF only has a Linux version, no Mac support as of 27/07/2021
+
 Use docker for local dev (Docckerfile_dev)
 
 ## Local runner in docker
@@ -19,7 +20,8 @@ Use docker for local dev (Docckerfile_dev)
 - Compile and create pipeline to Kubeflow (Note: for tfx pipeline compile to succeed, the mount_pvc path shall have user write access, i.e, /tmp..)
 - To reflect change of components (ie models, pipeline definition), update TFX_IMGAGE in config.py and rerun docker build container image (by default is robertf99/penguin-e2e) and push. Note currently schema, data and pipeline_output are mounted as hostPath.
 - Trainer whl file needs to be put into pipeline root folder, or build into container image for kubeflow pipeline to access. Referencing .py file does not work
-- For Model Evaluator to run in kubeflow (TFDF model only), there needs to be a custom module file with just `import tensorflow_decision_forest` as part of Evaluator config to allow for tensorflow op registration(https://github.com/tensorflow/decision-forests/issues/14). Same as Trainer module file, this custom module needs to be convert to whl or built into container image under pipeline root path. Currently due to TFDF has no Mac distribution, this step is currently done in docker image (`tfx pipeline create  --pipeline-path=kubeflow_e2e_runner.py --endpoint=http://host.docker.internal:8080 --engine=kubeflow`)
+- For Model Evaluator to run in kubeflow (TFDF model only), there needs to be a custom module file with just `import tensorflow_decision_forest` as part of Evaluator config to allow for tensorflow op registration(https://github.com/tensorflow/decision-forests/issues/14). Same as Trainer module file, this custom module will be convert to whl and copied from system /tmp/tfx/... path to mounted system path ./kubeflow.
+- Pipeline root folder can be set to gs://penguin-pipeline/pipeline-output/penguin-e2e. For this to work, ml-pipeline-ui service in kubeflow needs to be patched.
 
 ## Local Full Kubeflow Deployment (Notebook Server etc)
 - Install kind: brew install kind
@@ -29,8 +31,12 @@ Use docker for local dev (Docckerfile_dev)
 - kfctl apply --file=${CONFIG} -V, where config=https://raw.githubusercontent.com/kubeflow/manifests/v1.2-branch/kfdef/kfctl_k8s_istio.v1.2.0.yaml. This should deploy all relevant serices to the cluster.
 - kubectl port-forward svc/istio-ingressgateway -n istio-system 8080:80
 
-## Postrun Analysis
-- use examine_outputs.ipynb to analyze model performance
+## Post-run Analysis
+- use examine_outputs.ipynb to analyze model performance (when pipeline root is local PV)
+- for pipelines is run through kubeflow, need to update ML-MD connection to MySQL pod inside kubeflow
 ## Issues
-- kfp.Client() refuse connection when using cluster IP
-- Kubeflow runs pipeline in docker images, for external input files, should use file URI, or some way of volume (try with full kubeflow deployment)
+- kfp.Client() refuse connection when using cluster IP, use TFX CLI to create pipeline
+```
+tfx pipeline create  --pipeline-path=kubeflow_e2e_runner.py --endpoint=http://127.0.0.1:8080
+```
+- When running with Kubeflow Pipeline from local pipeline root in PV, Tensorboard instance will not run as static path is not supported, has to be a external URI

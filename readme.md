@@ -1,7 +1,8 @@
-## Tensorflow Decision Forest with TFX orchestrated in Airflow
+## Tensorflow Decision Forest with TFX orchestrated in Kubeflow
 Author: Robert Fu (robertf99@gmail.com)
 
-Dataset: Panguin dataset
+Medium Summary: 
+https://medium.com/@robertf99/mlops-with-tensorflow-extended-tfx-and-tensorflow-decision-forest-tf-df-part-1-bfa2f61580dc
 
 ## Folder Strucuture
 ### ./data: 
@@ -16,6 +17,9 @@ trainer module file
 pipeline definition
 ### ./schema: 
 saved schema from initial run for subsequent validation
+
+### ./kubeflow: 
+kubeflow cluster configuration and mounted folders. See ./pentuin-pipeline/readme.md for more details
 
 ## To Do
 * TF Transform as preprocess_fn
