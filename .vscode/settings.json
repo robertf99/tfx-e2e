@@ -1,0 +1,4 @@
+{
+	"python.analysis.extraPaths": ["./penguin-pipeline"],
+	"python.pythonPath": "./penguin-pipeline/.venv/bin/python",
+}

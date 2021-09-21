@@ -61,7 +61,7 @@ def _input_fn(
 
 
 def _build_tfdf_model():
-    model = tfdf.keras.RandomForestModel()
+    model = tfdf.keras.RandomForestModel(num_trees=10)
     model.compile(metrics=["accuracy"])
     return model
 
@@ -78,10 +78,7 @@ def run_fn(fn_args: tfx.components.FnArgs):
     train_dataset = _input_fn(
         fn_args.train_files, fn_args.data_accessor, schema, batch_size=_TRAIN_BATCH_SIZE
     )
-    #   for features, label in train_dataset.take(1):  # only take first element of dataset
-    #     print('*************')
-    #     print(features)
-    #     print(label)
+
     eval_dataset = _input_fn(
         fn_args.eval_files, fn_args.data_accessor, schema, batch_size=_EVAL_BATCH_SIZE
     )

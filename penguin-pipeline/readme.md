@@ -6,15 +6,18 @@ TFDF only has a Linux version, no Mac support as of 27/07/2021
 Use docker for local dev (Docckerfile_dev)
 
 ## Local runner in docker
-- Run the entire model inside docker image
+- Make sure metadata and pipeline_output folder is empty
+- Run the entire pipeline (including training TF-DF model) inside docker image
+```
+python ./penguin-pipeline/run_e2e_pipeline.py 
+```
 - Run ad-hoc analysis in local system via jupyter-lab, choose ipykernel as python kernel
 
 ## Local Kubeflow Pipeline runner
-- Enable Kubenetes in Docker, or create cluster using kind
-- Init cluster config with k3ai: k3ai init
-- Deploy kubeflow: k3ai apply kubeflow-pipelines (or k3ai apply -g kubeflow-pipelines-traefik for istio version)
-- Port forward to localhost: kubectl port-forward -n kubeflow svc/ml-pipeline-ui 8080:80
 - Add hostpath (i.e., ./kubeflow/local) to Docker preferrence setting (resource/file sharing) to mount local path to cluster host node
+- Enable Kubenetes in Docker, or create cluster using kind
+- Deploy kubeflow using config inside ./kubeflow, and deploy kubeflow and configs
+- Port forward to localhost: kubectl port-forward -n kubeflow svc/ml-pipeline-ui 8080:80
 - Create persistent volume and persistent volume claim in kubenetes cluster (namespace kubeflow) and attched node hostpath to volume
 - Add a onprem.mount_pvc op to kubeflow_e2e_runner.py so that container would mount the pvc to its file system
 - Compile and create pipeline to Kubeflow (Note: for tfx pipeline compile to succeed, the mount_pvc path shall have user write access, i.e, /tmp..)

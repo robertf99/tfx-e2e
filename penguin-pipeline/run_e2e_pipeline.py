@@ -16,6 +16,7 @@ tfx.orchestration.LocalDagRunner().run(
         ),
         schema_path=pipe_config.SAVED_SCHEMA_PATH,
         trainer_module_file=pipe_config.TRAINER_MODULE_PATH,
+		evaluator_module_file=pipe_config.EVAL_MODULE_PATH,
         serving_model_dir=pipe_config.SERVING_MODEL_DIR,
     ),
 )

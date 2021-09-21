@@ -72,7 +72,7 @@ def create_pipeline(
                             # baseline model resolved from MLMD (first run).
                             change_threshold=tfma.GenericChangeThreshold(
                                 direction=tfma.MetricDirection.HIGHER_IS_BETTER,
-                                absolute={"value": -1e-10},
+                                absolute={"value": 1e-10},
                             ),
                         ),
                     ),
