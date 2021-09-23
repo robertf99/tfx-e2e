@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 import os
 
 # from pydantic import validator
@@ -6,7 +6,7 @@ import os
 
 class PipelineConfig(BaseModel):
 
-    CLOUD: bool = False
+    # CLOUD: bool = False
 
     SCHEMA_PIPELINE_NAME = "penguin-schema"
     SCHEMA_DATA_ROOT = os.path.join("../data", SCHEMA_PIPELINE_NAME)
@@ -20,10 +20,10 @@ class PipelineConfig(BaseModel):
     PIPELINE_ROOT = os.path.join("pipeline_output", PIPELINE_NAME)
     METADATA_PATH = os.path.join("metadata", PIPELINE_NAME, "metadata.db")
     TRAINER_MODULE_PATH = os.path.join(
-        "../models", "penguin_trainer_rf.py"  # running after cd ./penguin-pipeline
+        "./pipeline/e2e_pipeline/penguin_trainer_rf.py"  # running after cd ./penguin-pipeline
     )
     EVAL_MODULE_PATH = os.path.join(
-        "../models", "custom_evaluator.py"  # running after cd ./penguin-pipeline
+        "./pipeline/e2e_pipeline/custom_evaluator.py"  # running after cd ./penguin-pipeline
     )
     SERVING_MODEL_DIR = os.path.join("serving_model", PIPELINE_NAME)
 
@@ -37,18 +37,23 @@ class PipelineConfig(BaseModel):
     # Image used
     TFX_IMAGE = "robertf99/penguin-e2e"
 
-    KUBE_DATA_ROOT = os.path.join(PV_MOUNT_BASEPATH, "data", PIPELINE_NAME)
+    KUBE_DATA_ROOT = os.path.join(GCS_ROOT, "data", PIPELINE_NAME)
     KUBE_PIPELINE_ROOT = os.path.join(
         PV_MOUNT_BASEPATH, "pipeline_output", PIPELINE_NAME
     )
     KUBE_SAVED_SCHEMA_PATH = os.path.join(
-        PV_MOUNT_BASEPATH, "schema", SCHEMA_PIPELINE_NAME, SAVED_SCHEMA_NAME
+        GCS_ROOT, "schema", SCHEMA_PIPELINE_NAME, SAVED_SCHEMA_NAME
     )
-    KUBE_SERVING_MODEL_DIR = os.path.join(
-        PV_MOUNT_BASEPATH, "serving_model", PIPELINE_NAME
+    KUBE_SERVING_MODEL_DIR = os.path.join(GCS_ROOT, "serving_model", PIPELINE_NAME)
+
+    KUBE_TRAINER_MODULE_PATH = os.path.join(
+        "./pipeline/e2e_pipeline", "penguin_trainer_rf.py"
+    )
+    KUBE_EVAL_MODULE_PATH = os.path.join(
+        "./pipeline/e2e_pipeline", "custom_evaluator.py"
     )
 
-    # Better to change pipeline root in Kubeflow UI than in code
+    # Better to change pipeline root in Kubeflow UI than in code as no need to rebuild image
     # @validator("KUBE_DATA_ROOT")
     # def update_data_root(cls, v, values):
     #     if values["CLOUD"]:
@@ -60,6 +65,20 @@ class PipelineConfig(BaseModel):
     #     if values["CLOUD"]:
     #         v = os.path.join(
     #             values["GCS_ROOT"], "pipeline_output", values["PIPELINE_NAME"]
+    #         )
+    #     return v
+
+    # @validator("KUBE_SAVED_SCHEMA_PATH")
+    # def update_schema_root(cls, v, values):
+    #     if values["CLOUD"]:
+    #         v = os.path.join(values["GCS_ROOT"], "schema", values["PIPELINE_NAME"])
+    #     return v
+
+    # @validator("KUBE_SERVING_MODEL_DIR")
+    # def update_sm_root(cls, v, values):
+    #     if values["CLOUD"]:
+    #         v = os.path.join(
+    #             values["GCS_ROOT"], "serving_model", values["PIPELINE_NAME"]
     #         )
     #     return v
 

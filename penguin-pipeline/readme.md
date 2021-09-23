@@ -25,6 +25,7 @@ python ./penguin-pipeline/run_e2e_pipeline.py
 - Trainer whl file needs to be put into pipeline root folder, or build into container image for kubeflow pipeline to access. Referencing .py file does not work
 - For Model Evaluator to run in kubeflow (TFDF model only), there needs to be a custom module file with just `import tensorflow_decision_forest` as part of Evaluator config to allow for tensorflow op registration(https://github.com/tensorflow/decision-forests/issues/14). Same as Trainer module file, this custom module will be convert to whl and copied from system /tmp/tfx/... path to mounted system path ./kubeflow.
 - Pipeline root folder can be set to gs://penguin-pipeline/pipeline-output/penguin-e2e. For this to work, ml-pipeline-ui service in kubeflow needs to be patched.
+- Tfx cli does not care about authentication, so running it locally and assigning GS as pipeline root does not work
 
 ## Local Full Kubeflow Deployment (Notebook Server etc)
 - Install kind: brew install kind

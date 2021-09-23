@@ -15,6 +15,7 @@ k apply -f tfx-pv.yaml
 
 # patch kubeflow ui deployment
 kubectl patch deployment ml-pipeline-ui --patch "$(cat patch-ml-pipeline-ui.yaml)" -n kubeflow --type strategic
+kubectl patch deployment ml-pipeline-visualizationserver --patch "$(cat patch-visualizationserver.yaml)" -n kubeflow --type strategic
 
 # Create secret
 kubectl create secret -n kubeflow generic gcs-pipeline-output-sa --from-file=gcs-pipeline-output-sa.json=tfx-e2e-70e117e15758.json
