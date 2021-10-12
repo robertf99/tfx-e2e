@@ -61,9 +61,11 @@ def _input_fn(
 
 
 def _build_tfdf_model():
-    model = tfdf.keras.RandomForestModel(
-        num_trees=300,
-    )
+    # model = tfdf.keras.RandomForestModel(
+    #     num_trees=300,
+    # )
+    model = tfdf.keras.CartModel()
+
     model.compile(metrics=["accuracy"])
     return model
 

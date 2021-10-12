@@ -20,7 +20,7 @@ class PipelineConfig(BaseModel):
     PIPELINE_ROOT = os.path.join("pipeline_output", PIPELINE_NAME)
     METADATA_PATH = os.path.join("metadata", PIPELINE_NAME, "metadata.db")
     TRAINER_MODULE_PATH = os.path.join(
-        "./pipeline/e2e_pipeline/penguin_trainer_rf.py"  # running after cd ./penguin-pipeline
+        "./pipeline/e2e_pipeline/penguin_trainer_tfdf.py"  # running after cd ./penguin-pipeline
     )
     EVAL_MODULE_PATH = os.path.join(
         "./pipeline/e2e_pipeline/custom_evaluator.py"  # running after cd ./penguin-pipeline

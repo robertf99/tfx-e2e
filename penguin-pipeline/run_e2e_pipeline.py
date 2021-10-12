@@ -1,8 +1,4 @@
 from tfx import v1 as tfx
-
-import os
-import shutil
-from tfx.orchestration.metadata import Metadata
 from pipeline.config import pipe_config
 from pipeline.e2e_pipeline.pipeline import create_pipeline
 
@@ -16,7 +12,7 @@ tfx.orchestration.LocalDagRunner().run(
         ),
         schema_path=pipe_config.SAVED_SCHEMA_PATH,
         trainer_module_file=pipe_config.TRAINER_MODULE_PATH,
-		evaluator_module_file=pipe_config.EVAL_MODULE_PATH,
+        evaluator_module_file=pipe_config.EVAL_MODULE_PATH,
         serving_model_dir=pipe_config.SERVING_MODEL_DIR,
     ),
 )
