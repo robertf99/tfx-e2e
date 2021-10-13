@@ -47,7 +47,7 @@ class PipelineConfig(BaseModel):
     KUBE_SERVING_MODEL_DIR = os.path.join(GCS_ROOT, "serving_model", PIPELINE_NAME)
 
     KUBE_TRAINER_MODULE_PATH = os.path.join(
-        "./pipeline/e2e_pipeline", "penguin_trainer_rf.py"
+        "./pipeline/e2e_pipeline", "penguin_trainer_tfdf.py"
     )
     KUBE_EVAL_MODULE_PATH = os.path.join(
         "./pipeline/e2e_pipeline", "custom_evaluator.py"

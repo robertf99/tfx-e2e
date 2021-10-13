@@ -6,9 +6,14 @@ services:
       dockerfile: Dockerfile_dev
     volumes:
       - ./penguin-pipeline:/penguin-pipeline
-      - ./models:/models
       - ./data:/data
+      - ./kubeflow:/kubeflow
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: /kubeflow/tfx-e2e-80164ca61d91.json
+      CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE: /kubeflow/tfx-e2e-80164ca61d91.json
     ports:
       - "8888:8888"
-      - "6006:6006"
-    entrypoint: [ "jupyter", "lab", "--allow-root", "--ip",  "0.0.0.0",  "--no-browser" ]
+      - "6006:6006" # tensorboard
+      - "3306:3306" # metadata mysql
+    entrypoint:
+      ["jupyter", "lab", "--allow-root", "--ip", "0.0.0.0", "--no-browser"]
