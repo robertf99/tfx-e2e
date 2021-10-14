@@ -5,3 +5,4 @@ FROM robertf99/tfx-tfdf
 WORKDIR /pipeline
 COPY ./pipeline ./
 ENV PYTHONPATH="/pipeline:${PYTHONPATH}"
+ENV UNSUPPORTED_DO_NOT_PACKAGE_USER_MODULES="false"

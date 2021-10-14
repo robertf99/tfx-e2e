@@ -9,8 +9,6 @@ def create_pipeline(
     pipeline_root: str,
     data_root: str,
     schema_path: str,
-    trainer_module_file: str,
-    evaluator_module_file: str,
     serving_model_dir: str,
     metadata_connection_config: Optional[metadata_store_pb2.ConnectionConfig] = None,
 ) -> tfx.dsl.Pipeline:
@@ -36,7 +34,7 @@ def create_pipeline(
 
     # Trainer
     trainer = tfx.components.Trainer(
-        module_file=trainer_module_file,
+        module_file="penguin_trainer_tfdf.py",
         examples=example_gen.outputs["examples"],
         schema=schema_importer.outputs["result"],  # Pass the imported schema.
         train_args=tfx.proto.TrainArgs(),
@@ -100,7 +98,7 @@ def create_pipeline(
         model=trainer.outputs["model"],
         baseline_model=model_resolver.outputs["model"],
         eval_config=eval_config,
-        module_file=evaluator_module_file,
+        module_file='custom_evaluator.py',
     )
 
     # Pusher

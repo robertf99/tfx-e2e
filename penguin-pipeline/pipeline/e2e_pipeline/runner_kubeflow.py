@@ -23,11 +23,11 @@ def run():
         tfx_image=tfx_image,
         pipeline_operator_funcs=(
             [
-                onprem.mount_pvc(
-                    pipe_config.PVC_NAME,
-                    pipe_config.PV_NAME,
-                    pipe_config.PV_MOUNT_BASEPATH,
-                ),
+                # onprem.mount_pvc(
+                #     pipe_config.PVC_NAME,
+                #     pipe_config.PV_NAME,
+                #     pipe_config.PV_MOUNT_BASEPATH,
+                # ),
                 gcp.use_gcp_secret("gcs-pipeline-output-sa"),
             ]
         ),
@@ -38,8 +38,6 @@ def run():
         pipeline_root=pipe_config.KUBE_PIPELINE_ROOT,
         data_root=pipe_config.KUBE_DATA_ROOT,
         schema_path=pipe_config.KUBE_SAVED_SCHEMA_PATH,
-        trainer_module_file=pipe_config.KUBE_TRAINER_MODULE_PATH,
-        evaluator_module_file=pipe_config.KUBE_EVAL_MODULE_PATH,
         serving_model_dir=pipe_config.KUBE_SERVING_MODEL_DIR,
     )
     runner = tfx.orchestration.experimental.KubeflowDagRunner(config=runner_config)
