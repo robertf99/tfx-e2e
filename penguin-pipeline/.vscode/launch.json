@@ -5,11 +5,12 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Current File",
+            "name": "Python: E2E pipeline",
             "type": "python",
             "request": "launch",
             "program": "${file}",
             "console": "internalConsole",
+            "cwd":"${workspaceFolder}/pipeline/e2e_pipeline",
             // comment if run in docker
             // "python": "${workspaceFolder}/.venv/bin/python",
             "justMyCode": false

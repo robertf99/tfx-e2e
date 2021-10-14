@@ -9,11 +9,11 @@ class PipelineConfig(BaseModel):
     PIPELINE_NAME = "penguin-e2e"
     SAVED_SCHEMA_NAME = "schema.pbtxt"
     SAVED_SCHEMA_PATH = os.path.join("../schema/penguin-schema", SAVED_SCHEMA_NAME)
-    DATA_ROOT = os.path.join("../..data", PIPELINE_NAME)
+    DATA_ROOT = os.path.join("../../data", PIPELINE_NAME)
     PIPELINE_ROOT = os.path.join("../pipeline_output", PIPELINE_NAME)
     METADATA_PATH = os.path.join("../metadata", PIPELINE_NAME, "metadata.db")
-    TRAINER_MODULE_PATH = os.path.join("penguin_trainer_tfdf.py")
-    EVAL_MODULE_PATH = os.path.join("custom_evaluator.py")
+    TRAINER_MODULE_PATH = "penguin_trainer_keras.py"
+    EVAL_MODULE_PATH = "custom_evaluator.py"
     SERVING_MODEL_DIR = os.path.join("../serving_model", PIPELINE_NAME)
 
     # Kubeflow configs
@@ -32,8 +32,8 @@ class PipelineConfig(BaseModel):
         GCS_ROOT, "schema/penguin-schema", SAVED_SCHEMA_NAME
     )
     KUBE_SERVING_MODEL_DIR = os.path.join(GCS_ROOT, "serving_model", PIPELINE_NAME)
-    KUBE_TRAINER_MODULE_PATH = "penguin_trainer_tfdf.py"
-    KUBE_EVAL_MODULE_PATH = "custom_evaluator.py"
+    KUBE_TRAINER_MODULE_PATH = "penguin_trainer_keras.py"
+    # KUBE_EVAL_MODULE_PATH = "custom_evaluator.py"
 
 
 pipe_config = PipelineConfig()

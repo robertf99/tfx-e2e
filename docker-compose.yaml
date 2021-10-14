@@ -9,8 +9,9 @@ services:
       - ./data:/data
       - ./kubeflow:/kubeflow
     environment:
-      GOOGLE_APPLICATION_CREDENTIALS: /kubeflow/tfx-e2e-80164ca61d91.json
-      CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE: /kubeflow/tfx-e2e-80164ca61d91.json
+      GOOGLE_APPLICATION_CREDENTIALS: /kubeflow/tfx-e2e-c805e5c06752.json
+      CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE: /kubeflow/tfx-e2e-c805e5c06752.json
+      UNSUPPORTED_DO_NOT_PACKAGE_USER_MODULES: "false"
     ports:
       - "8888:8888"
       - "6006:6006" # tensorboard

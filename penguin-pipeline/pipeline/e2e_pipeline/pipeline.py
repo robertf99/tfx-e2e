@@ -10,6 +10,8 @@ def create_pipeline(
     data_root: str,
     schema_path: str,
     serving_model_dir: str,
+    trainer_module_path: str,
+    evaluation_module_path: str = None,
     metadata_connection_config: Optional[metadata_store_pb2.ConnectionConfig] = None,
 ) -> tfx.dsl.Pipeline:
     """Creates a three component penguin pipeline with TFX."""
@@ -34,11 +36,11 @@ def create_pipeline(
 
     # Trainer
     trainer = tfx.components.Trainer(
-        module_file="penguin_trainer_tfdf.py",
+        module_file=trainer_module_path,
         examples=example_gen.outputs["examples"],
         schema=schema_importer.outputs["result"],  # Pass the imported schema.
-        train_args=tfx.proto.TrainArgs(),
-        eval_args=tfx.proto.EvalArgs(),
+        train_args=tfx.proto.TrainArgs(num_steps=300),
+        eval_args=tfx.proto.EvalArgs(num_steps=50),
     )
 
     # Evaluation
@@ -64,7 +66,7 @@ def create_pipeline(
                         class_name="SparseCategoricalAccuracy",
                         threshold=tfma.MetricThreshold(
                             value_threshold=tfma.GenericValueThreshold(
-                                lower_bound={"value": 0.9}
+                                lower_bound={"value": 0.5}
                             ),
                             # Change threshold will be ignored if there is no
                             # baseline model resolved from MLMD (first run).
@@ -82,8 +84,8 @@ def create_pipeline(
             tfma.SlicingSpec(),
             # Data can be sliced along a feature column. In this case, data is
             # sliced along feature column trip_start_hour.
-            tfma.SlicingSpec(feature_keys=["sex"]),
-            tfma.SlicingSpec(feature_keys=["island"]),
+            # tfma.SlicingSpec(feature_keys=["sex"]),
+            # tfma.SlicingSpec(feature_keys=["island"]),
         ],
     )
 
@@ -98,7 +100,7 @@ def create_pipeline(
         model=trainer.outputs["model"],
         baseline_model=model_resolver.outputs["model"],
         eval_config=eval_config,
-        module_file='custom_evaluator.py',
+        module_file=evaluation_module_path
     )
 
     # Pusher
