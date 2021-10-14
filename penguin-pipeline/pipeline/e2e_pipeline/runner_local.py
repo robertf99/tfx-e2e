@@ -1,6 +1,6 @@
 from tfx import v1 as tfx
-from pipeline.config import pipe_config
-from pipeline.e2e_pipeline.pipeline import create_pipeline
+from config import pipe_config
+from pipeline import create_pipeline
 
 tfx.orchestration.LocalDagRunner().run(
     create_pipeline(
