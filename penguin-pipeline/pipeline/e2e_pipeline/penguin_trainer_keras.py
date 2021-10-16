@@ -51,13 +51,12 @@ def _build_keras_model(schema: schema_pb2.Schema):
     inputs = [
         keras.layers.Input(shape=(1,), name=f.name)
         for f in schema.feature
-        if f.name != _LABEL_KEY
-        and f.type != schema_pb2.FeatureType.BYTES
+        if f.name != _LABEL_KEY and f.type != schema_pb2.FeatureType.BYTES
     ]
     d = keras.layers.concatenate(inputs)
     for _ in range(2):
         d = keras.layers.Dense(8, activation="relu")(d)
-    outputs = keras.layers.Dense(3, activation='softmax')(d)  # number of classes
+    outputs = keras.layers.Dense(3, activation="softmax")(d)  # number of classes
 
     model = keras.Model(inputs=inputs, outputs=outputs)
     model.compile(
@@ -97,7 +96,7 @@ def run_fn(fn_args: tfx.components.FnArgs):
         steps_per_epoch=fn_args.train_steps,
         validation_data=eval_dataset,
         validation_steps=fn_args.eval_steps,
-        callbacks=[tensorboard_callback]
+        callbacks=[tensorboard_callback],
     )
 
     # The result of the training should be saved in `fn_args.serving_model_dir`
