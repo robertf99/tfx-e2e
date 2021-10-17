@@ -39,8 +39,8 @@ def create_pipeline(
         module_file=trainer_module_path,
         examples=example_gen.outputs["examples"],
         schema=schema_importer.outputs["result"],  # Pass the imported schema.
-        train_args=tfx.proto.TrainArgs(num_steps=300),
-        eval_args=tfx.proto.EvalArgs(num_steps=50),
+        # train_args=tfx.proto.TrainArgs(num_steps=5),
+        # eval_args=tfx.proto.EvalArgs(num_steps=1),
     )
 
     # Evaluation

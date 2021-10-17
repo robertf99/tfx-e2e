@@ -12,8 +12,8 @@ from tensorflow_metadata.proto.v0 import schema_pb2
 
 _LABEL_KEY = "species"
 
-_TRAIN_BATCH_SIZE = 100
-_EVAL_BATCH_SIZE = 10
+_TRAIN_BATCH_SIZE = 32
+_EVAL_BATCH_SIZE = 32
 
 
 def _input_fn(
@@ -42,7 +42,7 @@ def _input_fn(
             batch_size=batch_size, label_key=_LABEL_KEY, num_epochs=1
         ),
         schema,
-    ).repeat()
+    )
     return dataset
 
 
@@ -56,13 +56,13 @@ def _build_keras_model(schema: schema_pb2.Schema):
     d = keras.layers.concatenate(inputs)
     for _ in range(2):
         d = keras.layers.Dense(8, activation="relu")(d)
-    outputs = keras.layers.Dense(3, activation="softmax")(d)  # number of classes
+    outputs = keras.layers.Dense(3)(d)  # number of classes
 
     model = keras.Model(inputs=inputs, outputs=outputs)
     model.compile(
-        optimizer=keras.optimizers.Adam(1e-2),
+        optimizer='adam',
         loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
-        metrics=[keras.metrics.SparseCategoricalAccuracy()],
+        metrics=['accuracy'],
     )
 
     model.summary(print_fn=logging.info)
@@ -89,13 +89,14 @@ def run_fn(fn_args: tfx.components.FnArgs):
     # Keras models
     model = _build_keras_model(schema)
     tensorboard_callback = tf.keras.callbacks.TensorBoard(
-        log_dir=fn_args.model_run_dir, update_freq="batch"
+        log_dir=fn_args.model_run_dir
     )
     model.fit(
         train_dataset,
-        steps_per_epoch=fn_args.train_steps,
         validation_data=eval_dataset,
-        validation_steps=fn_args.eval_steps,
+        epochs=100,
+        # steps_per_epoch=fn_args.train_steps,
+        # validation_steps=fn_args.eval_steps,
         callbacks=[tensorboard_callback],
     )
 

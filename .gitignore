@@ -12,3 +12,4 @@ airflow/logs
 **/example
 **/.ipynb_checkpoints
 **/Kubeflow/local
+**/models/logs
