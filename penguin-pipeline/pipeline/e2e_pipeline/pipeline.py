@@ -10,7 +10,7 @@ def create_pipeline(
     data_root: str,
     schema_path: str,
     serving_model_dir: str,
-    trainer_module_path: str,
+    module_path: str,
     evaluation_module_path: str = None,
     metadata_connection_config: Optional[metadata_store_pb2.ConnectionConfig] = None,
 ) -> tfx.dsl.Pipeline:
@@ -34,13 +34,22 @@ def create_pipeline(
         schema=schema_importer.outputs["result"],
     )
 
+    # Transforms input data using preprocessing_fn in the 'module_file'.
+    transform = tfx.components.Transform(
+        examples=example_gen.outputs["examples"],
+        schema=schema_importer.outputs["result"],
+        materialize=False,
+        module_file=module_path,
+    )
+
     # Trainer
     trainer = tfx.components.Trainer(
-        module_file=trainer_module_path,
+        module_file=module_path,
         examples=example_gen.outputs["examples"],
-        schema=schema_importer.outputs["result"],  # Pass the imported schema.
-        # train_args=tfx.proto.TrainArgs(num_steps=5),
-        # eval_args=tfx.proto.EvalArgs(num_steps=1),
+        # schema=schema_importer.outputs[
+        #     "result"
+        # ],  # Pass the imported schema - not used when using tft
+        transform_graph=transform.outputs["transform_graph"],
     )
 
     # Evaluation
@@ -68,11 +77,10 @@ def create_pipeline(
                             value_threshold=tfma.GenericValueThreshold(
                                 lower_bound={"value": 0.5}
                             ),
-                            # Change threshold will be ignored if there is no
-                            # baseline model resolved from MLMD (first run).
+
                             change_threshold=tfma.GenericChangeThreshold(
                                 direction=tfma.MetricDirection.HIGHER_IS_BETTER,
-                                absolute={"value": 1e-10},
+                                absolute={"value": -1e-10},
                             ),
                         ),
                     ),
@@ -80,12 +88,9 @@ def create_pipeline(
             )
         ],
         slicing_specs=[
-            # An empty slice spec means the overall slice, i.e. the whole dataset.
             tfma.SlicingSpec(),
-            # Data can be sliced along a feature column. In this case, data is
-            # sliced along feature column trip_start_hour.
-            # tfma.SlicingSpec(feature_keys=["sex"]),
-            # tfma.SlicingSpec(feature_keys=["island"]),
+            tfma.SlicingSpec(feature_keys=["sex"]),
+            tfma.SlicingSpec(feature_keys=["island"]),
         ],
     )
 
@@ -100,7 +105,7 @@ def create_pipeline(
         model=trainer.outputs["model"],
         baseline_model=model_resolver.outputs["model"],
         eval_config=eval_config,
-        module_file=evaluation_module_path
+        module_file=evaluation_module_path,
     )
 
     # Pusher
@@ -119,6 +124,7 @@ def create_pipeline(
         statistics_gen,
         schema_importer,
         example_validator,
+        transform,  # Transform component was added to the pipeline.
         trainer,
         model_resolver,
         evaluator,

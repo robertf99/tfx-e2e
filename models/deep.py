@@ -96,6 +96,6 @@ model.compile(
 model.fit(train_ds, epochs=100, validation_data=test_ds, callbacks=[tensorboard_callback])
 
 # %%
-! tensorboard --logdir logs/
+# ! tensorboard --logdir logs/
 
 # %%

@@ -9,10 +9,10 @@ class PipelineConfig(BaseModel):
     PIPELINE_NAME = "penguin-e2e"
     SAVED_SCHEMA_NAME = "schema.pbtxt"
     SAVED_SCHEMA_PATH = os.path.join("../schema/penguin-schema", SAVED_SCHEMA_NAME)
-    DATA_ROOT = os.path.join("../../data", PIPELINE_NAME)
+    DATA_ROOT = os.path.join("../../../data", PIPELINE_NAME)
     PIPELINE_ROOT = os.path.join("../pipeline_output", PIPELINE_NAME)
     METADATA_PATH = os.path.join("../metadata", PIPELINE_NAME, "metadata.db")
-    TRAINER_MODULE_PATH = "penguin_trainer_keras.py"
+    MODULE_PATH = "penguin_module_tft.py"  # penguin_trainer_keras
     EVAL_MODULE_PATH = "custom_evaluator.py"
     SERVING_MODEL_DIR = os.path.join("../serving_model", PIPELINE_NAME)
 

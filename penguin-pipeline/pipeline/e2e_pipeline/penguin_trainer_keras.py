@@ -60,9 +60,9 @@ def _build_keras_model(schema: schema_pb2.Schema):
 
     model = keras.Model(inputs=inputs, outputs=outputs)
     model.compile(
-        optimizer='adam',
+        optimizer="adam",
         loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
-        metrics=['accuracy'],
+        metrics=["accuracy"],
     )
 
     model.summary(print_fn=logging.info)
@@ -88,15 +88,11 @@ def run_fn(fn_args: tfx.components.FnArgs):
 
     # Keras models
     model = _build_keras_model(schema)
-    tensorboard_callback = tf.keras.callbacks.TensorBoard(
-        log_dir=fn_args.model_run_dir
-    )
+    tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=fn_args.model_run_dir)
     model.fit(
         train_dataset,
         validation_data=eval_dataset,
-        epochs=100,
-        # steps_per_epoch=fn_args.train_steps,
-        # validation_steps=fn_args.eval_steps,
+        epochs=50,
         callbacks=[tensorboard_callback],
     )
 
