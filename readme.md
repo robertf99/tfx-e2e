@@ -10,16 +10,13 @@ get initial data by
 ```
 cd penguin-pipeline && python prepare_data.py
 ```
+### ./penguin-pipeline: 
+main pipeline folder, see readme.md inside
 
 ### ./models: 
-trainer module file
-### ./penguim-pipeline: 
-pipeline definition
+ad hoc models
 ### ./schema: 
 saved schema from initial run for subsequent validation
 
 ### ./kubeflow: 
 kubeflow cluster configuration and mounted folders. See ./pentuin-pipeline/readme.md for more details
-
-## To Do
-* TF Transform as preprocess_fn

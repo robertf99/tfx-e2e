@@ -56,6 +56,3 @@ python ./penguin-pipeline/run_e2e_pipeline.py
 ## Issues
 
 - When running with Kubeflow Pipeline from local pipeline root in PV, Tensorboard instance will not run as static path is not supported, has to be a external URI
-
-## Useful Links
--
