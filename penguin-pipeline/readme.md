@@ -51,8 +51,9 @@ python ./penguin-pipeline/run_e2e_pipeline.py
 ## Post-run Analysis
 
 - use examine_outputs.ipynb to analyze model performance
-- for pipelines is run through kubeflow, need to update ML-MD connection to MySQL pod inside kubeflow
+- for pipelines is run through kubeflow, need to update ML-MD connection to MySQL pod (`kubectl port-forward -n kubeflow svc/mysql 3306:3306`) inside kubeflow
 
 ## Issues
 
 - When running with Kubeflow Pipeline from local pipeline root in PV, Tensorboard instance will not run as static path is not supported, has to be a external URI
+- Current deployment of Kubeflow(1.7.0) has metadata store version 6. However, when running adhoc analysis with TFX version 1.2, metadata store library is version 7. Best to downgrade the library version(install `ml-metadata= "==1.0.0"`) than to update the db version inside kubeflow deployment. Refer to `https://github.com/google/ml-metadata/blob/master/g3doc/get_started.md`

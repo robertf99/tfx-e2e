@@ -46,10 +46,10 @@ def create_pipeline(
     trainer = tfx.components.Trainer(
         module_file=module_path,
         examples=example_gen.outputs["examples"],
-        schema=schema_importer.outputs[
-            "result"
-        ],  # Pass the imported schema - not used when using tft
-        # transform_graph=transform.outputs["transform_graph"],
+        # schema=schema_importer.outputs[
+        #     "result"
+        # ],  # Pass the imported schema - not used when using tft
+        transform_graph=transform.outputs["transform_graph"],
     )
 
     # Evaluation
@@ -124,7 +124,7 @@ def create_pipeline(
         statistics_gen,
         schema_importer,
         example_validator,
-        # transform,  # Transform component was added to the pipeline.
+        transform,  # Transform component was added to the pipeline.
         trainer,
         model_resolver,
         evaluator,

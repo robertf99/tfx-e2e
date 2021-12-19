@@ -13,3 +13,5 @@ airflow/logs
 **/.ipynb_checkpoints
 **/Kubeflow/local
 **/models/logs
+
+kubeflow/tfx-e2e-c805e5c06752.json
