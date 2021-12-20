@@ -32,21 +32,13 @@ python ./penguin-pipeline/run_e2e_pipeline.py
 ### Run with pipeline root as GCS and Kubeflow on prem
 - Deploy Kubeflow pipeline and set up GCS secret within the cluster
 - Use locally GCS-authenticated console to create pipeline directly with pipeline_root as GCS bucket via TFX CLI
-- As of writing, the Evaluator will fail if TF-DF model is used, but normal Keras model works
+- As of writing, the Evaluator will fail if TF-DF model is used, but normal Keras model works (check for `penguin_module_tft.py`)
 - Possible workaround for TF-DF model:
     - When create pipeline use a local path as `pipeline_root`
     - For Model Evaluator to run in kubeflow (TFDF model only), there needs to be a custom module file with just `import tensorflow_decision_forest` as part of Evaluator config to allow for tensorflow op registration(https://github.com/tensorflow/decision-forests/issues/14). Same as Trainer module file, this custom module will be convert to whl and copied from system /tmp/tfx/... path to mounted system path ./kubeflow.
     - Evluator module file whl file needs to be put into pipeline root folder, or build into container image for kubeflow pipeline to access. Referencing .py file does not work
     - Pipeline root folder can be set to `gs://penguin-pipeline/pipeline-output/penguin-e2e` in Kubeflow UI. For this to work, ml-pipeline-ui service in kubeflow needs to be patched.
 
-## Local Full Kubeflow Deployment (Notebook Server etc)
-
-- Install kind: brew install kind
-- Create a cluster with kind: kind create cluster (check cluster config by kind get kubeconfig)
-- Install kfctl (Download, unzip and move to path)
-- Create new empty folder for thge Kubeflow app and cd into it
-- kfctl apply --file=${CONFIG} -V, where config=https://raw.githubusercontent.com/kubeflow/manifests/v1.2-branch/kfdef/kfctl_k8s_istio.v1.2.0.yaml. This should deploy all relevant serices to the cluster.
-- kubectl port-forward svc/istio-ingressgateway -n istio-system 8080:80
 
 ## Post-run Analysis
 

@@ -12,7 +12,7 @@ class PipelineConfig(BaseModel):
     DATA_ROOT = os.path.join("../../../data", PIPELINE_NAME)
     PIPELINE_ROOT = os.path.join("../pipeline_output", PIPELINE_NAME)
     METADATA_PATH = os.path.join("../metadata", PIPELINE_NAME, "metadata.db")
-    MODULE_PATH = "penguin_trainer_keras.py"  # penguin_module_tft
+    MODULE_PATH = "penguin_module_tft.py"  # penguin_module_tft
     EVAL_MODULE_PATH = "custom_evaluator.py"
     SERVING_MODEL_DIR = os.path.join("../serving_model", PIPELINE_NAME)
 
